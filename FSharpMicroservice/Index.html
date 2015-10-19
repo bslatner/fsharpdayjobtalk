@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test App</title>
+    <link href="./Content/bootstrap.min.css" rel="stylesheet">
+    <link href="./Content/Site.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="sub-header">Send a Notification</h2>
+        <label for="UserId">User ID:</label>
+        <input type="text" name="UserId" id="UserId" value="BRYANS" />
+        <label for="Message">Message Text:</label>
+        <input type="text" name="Message" id="Message" value="Test notification"/>
+        <button onclick="sendNotification()">Send</button>
+    </div>
+
+    <script src="./Scripts/jquery-2.1.4.min.js"></script>
+    <script src="./Scripts/main.js"></script>
+</body>
+</html>
