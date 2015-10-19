@@ -11,12 +11,18 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpScripts", "FSharpScri
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{99896E62-47A3-45D2-BCD1-8A413CEEE612}"
 	ProjectSection(SolutionItems) = preProject
+		Data\CreateTables.sql = Data\CreateTables.sql
 		Data\customers.csv = Data\customers.csv
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpMicroservice", "FSharpMicroservice\FSharpMicroservice.fsproj", "{8E5A11EF-3FCD-49A6-B4AE-7B0282F33871}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SudokuSolver", "SudokuSolver\SudokuSolver.fsproj", "{3EE3D456-FF05-4E48-8AA4-F692D92F2AA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56CA1D10-27EF-4BDF-B186-850110EDB997}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
