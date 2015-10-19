@@ -6,6 +6,7 @@ This is the code from the presentation. It includes:
  * CSharpLibrary - A C# library that consumes code from an F# library
  * FSharpLibrary - An F# Library
  * FSharpScripts - Some example F# Scripts
+ * FSharpMicroserver - A simple microservice that sends notifications to users
  * SudokuSolver - An F# program that solves sudoku games
 
 ### Other Useful Resources:
