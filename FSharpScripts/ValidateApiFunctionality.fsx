@@ -1,13 +1,16 @@
 ﻿#r "System.Data.dll"
 #r "System.Data.Linq.dll"
 #r "System.Xml.Linq"
-#r "FSharp.Data.TypeProviders.dll"
-#r @"..\packages\FSharp.Data.2.2.5\lib\net40\FSharp.Data.dll"
+#r @"..\packages\scripts\fsharp.data\lib\net45\FSharp.Data.dll"
+#r @"..\packages\scripts\SqlProvider\lib\net451\FSharp.Data.SqlProvider.dll"
 
 open FSharp.Data
-open Microsoft.FSharp.Data.TypeProviders
+open FSharp.Data.Sql
 
-type DestSql = SqlDataConnection<"Data Source=localhost; Initial Catalog=NWIND; Integrated Security=True;">
+[<Literal>]
+let ConnectionString = "Data Source=localhost; Initial Catalog=NWIND; Integrated Security=True;"
+
+type DestSql = SqlDataProvider<Common.DatabaseProviderTypes.MSSQLSERVER, ConnectionString>
 
 let notifyOperations msg =
     printfn "%s" msg
@@ -20,9 +23,9 @@ try
     ]
     let result = Http.RequestString("http://www.slatner.com/api/AddCustomer", body = FormValues customerValues)
 
-    use db = DestSql.GetDataContext()
+    let db = DestSql.GetDataContext()
     query {
-        for row in db.Customers do
+        for row in db.Dbo.Customers do
         where (row.CompanyName = "Test Name")
         select row
     } |> Seq.exactlyOne |> ignore

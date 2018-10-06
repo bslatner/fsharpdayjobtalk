@@ -1,0 +1,29 @@
+source https://api.nuget.org/v3/index.json
+
+storage: none
+nuget AWSSDK.SimpleEmail
+nuget Expecto
+nuget FSharp.Core
+nuget FSharp.Data prerelease
+nuget Microsoft.AspNetCore.App
+nuget SqlProvider
+nuget System.Data.SqlClient
+nuget Twilio
+
+group scripts
+  source https://api.nuget.org/v3/index.json
+
+  nuget FSharp.Data prerelease
+  nuget SqlProvider
+
+group build
+  source https://api.nuget.org/v3/index.json
+  
+  nuget Fake.BuildServer.TeamCity
+  nuget Fake.Core
+  nuget Fake.Core.Environment
+  nuget Fake.Core.Target
+  nuget Fake.DotNet.Cli
+  nuget Fake.Runtime
+  nuget Fake.IO.FileSystem
+  nuget Newtonsoft.Json

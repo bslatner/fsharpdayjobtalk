@@ -1,16 +1,24 @@
 ﻿namespace FSharpMicroservice.Controllers
-open System
-open System.Collections.Generic
-open System.Linq
-open System.Net.Http
-open System.Web.Http
-open FSharpMicroservice.Models
+
+open Microsoft.AspNetCore.Mvc
 open Notifier
 
-/// Retrieves values.
-type NotificationController() =
-    inherit ApiController()
+[<CLIMutable>]
+type NotificationRequest = {
+    UserId : string
+    Message : string
+}
 
-    /// Post notification to user
-    member x.Post(request : NotificationRequest) = 
+[<Route("api/[controller]")>]
+[<ApiController>]
+type NotificationController () =
+    inherit ControllerBase()
+
+    [<HttpGet>]
+    member __.Get() =
+        let values = [|"it"; "is"; "working"|]
+        ActionResult<string[]>(values)        
+
+    [<HttpPost>]
+    member __.Post([<FromBody>] request : NotificationRequest) =
         NotifyUser request.UserId request.Message

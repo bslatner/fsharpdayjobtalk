@@ -1,34 +1,38 @@
 ﻿#r "System.Data.dll"
 #r "System.Data.Linq.dll"
 #r "FSharp.Data.TypeProviders.dll"
-#r @"..\packages\FSharp.Data.2.2.5\lib\net40\FSharp.Data.dll"
+#r @"..\packages\scripts\fsharp.data\lib\net45\FSharp.Data.dll"
+#r @"..\packages\scripts\SqlProvider\lib\net451\FSharp.Data.SqlProvider.dll"
 
 open FSharp.Data
-open Microsoft.FSharp.Data.TypeProviders
+open FSharp.Data.Sql
 
 type SourceJson = JsonProvider<"https://api.github.com/users/bslatner/repos">
-type DestSql = SqlDataConnection<"Data Source=localhost; Initial Catalog=Test; Integrated Security=True;">
+
+[<Literal>]
+let ConnectionString = "Data Source=localhost; Initial Catalog=Test; Integrated Security=True;"
+
+type DestSql = SqlDataProvider<Common.DatabaseProviderTypes.MSSQLSERVER, ConnectionString, UseOptionTypes = true>
 
 let importRepositories() =
+    let destDB = DestSql.GetDataContext()
+
     let getDestination (source : SourceJson.Root) =
-        let dest = new DestSql.ServiceTypes.Repository()
+        let dest = destDB.Dbo.Repository.Create()
         dest.Name <- source.Name
         dest.FullName <- source.FullName
         dest.CloneUrl <- source.CloneUrl
         dest
 
     let sourceDB = SourceJson.Load("https://api.github.com/users/bslatner/repos")
-    use destDB = DestSql.GetDataContext()
-
-    let copyToDestination repo =
-        destDB.Repository.InsertOnSubmit repo
-        printfn "Importing repository %s" repo.Name
 
     sourceDB
     |> Seq.map getDestination
-    |> Seq.iter copyToDestination
+    |> Seq.iter (fun r ->
+        printfn "Importing repository %s" r.Name
+    )
 
-    destDB.DataContext.SubmitChanges()
+    destDB.SubmitUpdates()
 
 printfn "Starting import"
 importRepositories()

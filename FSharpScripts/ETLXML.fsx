@@ -2,18 +2,25 @@
 #r "System.Data.Linq.dll"
 #r "System.Xml.Linq"
 #r "FSharp.Data.TypeProviders.dll"
-#r @"..\packages\FSharp.Data.2.2.5\lib\net40\FSharp.Data.dll"
+#r @"..\packages\scripts\fsharp.data\lib\net45\FSharp.Data.dll"
+#r @"..\packages\scripts\SqlProvider\lib\net451\FSharp.Data.SqlProvider.dll"
 
 open FSharp.Data
-open Microsoft.FSharp.Data.TypeProviders
+open FSharp.Data.Sql
 
 type SourceXml = XmlProvider<"http://w1.weather.gov/xml/current_obs/index.xml">
-type DestSql = SqlDataConnection<"Data Source=localhost; Initial Catalog=Test; Integrated Security=True;">
+
+[<Literal>]
+let ConnectionString = "Data Source=localhost; Initial Catalog=Test; Integrated Security=True;"
+
+type DestSql = SqlDataProvider<Common.DatabaseProviderTypes.MSSQLSERVER, ConnectionString, UseOptionTypes = true>
 
 let importStations() =
+    let destDB = DestSql.GetDataContext()
+
     let getDestination (source : SourceXml.Station) =
-        let dest = new DestSql.ServiceTypes.WeatherStation()
-        dest.StationID <- source.StationId
+        let dest = destDB.Dbo.WeatherStation.Create()
+        dest.StationId <- source.StationId
         dest.State <- source.State
         dest.Name <- source.StationName
         dest.Latitude <- float(source.Latitude)
@@ -22,17 +29,14 @@ let importStations() =
         dest
 
     let sourceDB = SourceXml.Load("http://w1.weather.gov/xml/current_obs/index.xml")
-    use destDB = DestSql.GetDataContext()
-
-    let copyToDestination station =
-        destDB.WeatherStation.InsertOnSubmit station
-        printfn "Importing station %s" station.Name
 
     sourceDB.Stations
     |> Seq.map getDestination
-    |> Seq.iter copyToDestination
+    |> Seq.iter (fun s ->
+        printfn "Importing station %s" s.Name
+    )
 
-    destDB.DataContext.SubmitChanges()
+    destDB.SubmitUpdates()
 
 printfn "Starting import"
 importStations()

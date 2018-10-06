@@ -1,0 +1,7 @@
+AWSSDK.SimpleEmail
+FSharp.Core
+FSharp.Data
+Microsoft.AspNetCore.App
+SqlProvider
+System.Data.SqlClient
+Twilio
