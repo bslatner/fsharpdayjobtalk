@@ -103,7 +103,7 @@ let SolveGame (game : Square[,]) =
             // possibilities must be exactly as long as the length we're looking for
             |> Seq.filter(fun o -> o.Count = setLength)
             // count repetitions
-            |> Seq.countBy(fun o -> o)
+            |> Seq.countBy id
             // filter out repetitions that don't match the length we're looking for
             |> Seq.filter(fun (posSet, count) -> count = setLength)
             // discard the counter
