@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace CSharpLibrary
 {
@@ -34,6 +33,12 @@ namespace CSharpLibrary
         {
             var t = TestModule.Tuplefy(x, y);
             return new Tuple<int, int>(t.Item1 + 1, t.Item2 + 1);
+        }
+
+        public (int, int) MakeTuple2(int x, int y)
+        {
+            var t = TestModule.Tuplefy(x, y);
+            return (t.Item1 + 1, t.Item2 + 1);
         }
 
         public int AddInNamespace()
