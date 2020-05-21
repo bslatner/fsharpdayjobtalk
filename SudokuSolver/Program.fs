@@ -21,11 +21,11 @@ let main argv =
     |]
 
     let parsed = ParseGame game
-    SolveGame parsed |> ignore
+    SolveGameStandard parsed |> ignore
 
-    for x in 0..8 do
-        for y in 0..8 do
-            let v = displayValue parsed.[x,y].Value
+    for row in 0..8 do
+        for col in 0..8 do
+            let v = displayValue parsed.[row,col].Value
             Console.Write(v)
         Console.WriteLine()
 
